@@ -12,16 +12,14 @@ public class player : MonoBehaviour
     //public float ChangeTime = 3f;
     //public float ChangeTimer;
     public GameObject vfx;
-    public GameObject FreeLookCameraRig;
+   // public GameObject playercamera;
     public Camera cam;
     public GameObject OldSisterBody;
     public GameObject YoungSisterBody;
     public GameObject attackCollider;
 
 
-    private Vector3 CamForward;
-    private Vector3 Move;
-
+    
     public float RotateSpeed = 1;
     public float rotSpeed = 50;
     public bool walkable;
@@ -111,32 +109,15 @@ public class player : MonoBehaviour
         float v = Input.GetAxis("Vertical");
         if(walkable == true)
         {
-           // if (transform.rotation != FreeLookCameraRig.transform.rotation )
-           // {
-           //     // calculate camera relative direction to move:
-           //     CamForward = Vector3.Scale(FreeLookCameraRig.transform.forward, new Vector3(1, 0, 1)).normalized;
-           //     Move = v * CamForward + h * FreeLookCameraRig.transform.right;
-           //     Move = v * CamForward + h * FreeLookCameraRig.transform.right;
-           //     transform.rotation *= Quaternion.Euler(new Vector3(0, currentH + currentV * Time.deltaTime * rotSpeed, 0));
-           // }
-           // else
-           // {
-           //     // we use world-relative directions in the case of no main camera
-           //     Move = v * Vector3.forward + h * Vector3.right;
-           //     transform.position += Move * Time.deltaTime * MoveSpeed;
-           // }
-
-            
-
             moveX = transform.right * h;
             moveZ = transform.forward * v;
             currentV = Mathf.Lerp(currentV, v, Time.deltaTime * 20);
             currentH = Mathf.Lerp(currentH, h, Time.deltaTime * 20);
-            
+
             //currentH = Mathf.Lerp(currentH, h, 10);
 
             transform.position += transform.forward * currentV * Time.deltaTime * MoveSpeed;
-            //transform.position += (moveX + moveZ) * Time.deltaTime * MoveSpeed;
+           // transform.position += (moveX + moveZ) * Time.deltaTime * MoveSpeed;
             transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * Time.deltaTime * rotSpeed, 0));
             //transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * rotSpeed, 0));
             //transform.localRotation *= Quaternion.Euler(new Vector3(0, currentH * rotSpeed, 0));
