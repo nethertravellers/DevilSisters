@@ -165,12 +165,18 @@ public class player : MonoBehaviour
             //{
             //    if (hitInfo.collider.gameObject.tag == "Dropcollider" )
             //    {
+            
                     if (Input.GetKey(KeyCode.Mouse0) && takedropingCDtimer >= takedropingCDtime)
                     {
-                        dropItem();
-                        
+                        dropItem(); 
                     }
-                  
+            else if(!Input.GetKey(KeyCode.Mouse0) && force < Maxforce)
+            {
+                force -= 1000 * Time.deltaTime;
+                IsDroping = false;
+            }
+            force = Mathf.Clamp(force, 0, Maxforce);
+
             //    }
             //}
         }
@@ -178,19 +184,25 @@ public class player : MonoBehaviour
 
     private void dropItem()
     {
-        force = Mathf.Clamp(force, 0, 1000);
-        force += 1000 * Time.deltaTime;
+        
+        IsDroping = true;
+        force += Maxforce * Time.deltaTime;
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue);
-        if (force >= 1000)
+     
+        
+            if (Input.GetKey(KeyCode.Mouse0) && force >= Maxforce)
             {
-            takedropingCDtimer = 0;
-            Istaking = false;
-            takingItem.transform.position =  new Vector3 (cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
-            takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force);
-            takingItem = null;
-            force = 0;
-        }
+                takedropingCDtimer = 0;
+                Istaking = false;
+                takingItem.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
+                takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force + new Vector3(0, 10 ,0));
+                takingItem = null;
+                force = 0;
+                IsDroping = false;
+            }
+        
+        
             
            
         
@@ -200,7 +212,7 @@ public class player : MonoBehaviour
         //takingItem.transform.position = dropingpoint.position;
         //takingItem = null;
     }
-
+    public bool IsDroping = false;
     public float takedropingCDtimer;
     public float takedropingCDtime = 0.5f;
     public GameObject takingItem;
@@ -210,6 +222,7 @@ public class player : MonoBehaviour
     public bool Istaking = false;
     public RaycastHit hitInfo;
     [SerializeField] private float force = 0;
+    [SerializeField] private float Maxforce = 1000;
     //尋找道具
     void takeItem()
     {

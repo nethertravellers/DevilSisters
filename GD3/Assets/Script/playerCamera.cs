@@ -13,7 +13,7 @@ public class playerCamera : MonoBehaviour
     [SerializeField]
     private float distence;
     private float disSpeed = 100;
-    private float minDistence = 1;
+    private float minDistence = -1;
     private float maxDistence = 3.5f;
     [SerializeField]
     private float height = 0;
@@ -24,6 +24,11 @@ public class playerCamera : MonoBehaviour
     [SerializeField]
     private bool cursorlock = true;
     // Update is called once per frame
+    private void Awake()
+    {
+        distence = 3.5f;
+        sidedistance = 0.5f;
+    }
     void Update()
     {
         if (cursorlock == true)
@@ -34,7 +39,7 @@ public class playerCamera : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
-        if (!Input.GetKey(KeyCode.Tab))
+        if (!Input.GetKey(KeyCode.Tab) || player.gameObject.GetComponent<player>().IsDroping == false)
         {
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;
             y -= Input.GetAxis("Mouse Y") * ySpeed * Time.deltaTime;
@@ -49,10 +54,20 @@ public class playerCamera : MonoBehaviour
             }
             
         }
-
-        distence -= Input.GetAxis("Mouse ScrollWheel") * disSpeed * Time.deltaTime;
+        if (player.gameObject.GetComponent<player>().IsDroping == true)
+        {
+            distence = Mathf.Lerp(distence, -1, Time.deltaTime * 20);
+            sidedistance = Mathf.Lerp(distence, 0, Time.deltaTime * 20);
+        }
+        else
+        {
+            distence = Mathf.Lerp(distence, 3.5f, Time.deltaTime * 20);
+            sidedistance = Mathf.Lerp(sidedistance, 0.5f, Time.deltaTime * 20);
+        }
+        //distence -= Input.GetAxis("Mouse ScrollWheel") * disSpeed * Time.deltaTime;
         distence = Mathf.Clamp(distence, minDistence, maxDistence);
         rotationEuler = Quaternion.Euler(y, x, 0);
+        //rotationEuler = Quaternion.Euler(0, 0, 0);
         cameraPosition = rotationEuler * new Vector3(sidedistance, height, -distence ) + player.position;
         //cameraPosition = rotationEuler * new Vector3(0, 0, -4) + player.position;
         
