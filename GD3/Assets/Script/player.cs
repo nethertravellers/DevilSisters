@@ -9,6 +9,14 @@ using UnityEngine;
 public class player : MonoBehaviour
 {
     public float MoveSpeed = 1;
+    public float rotSpeed = 50;
+
+    private Vector3 moveX;
+    private Vector3 moveZ;
+    private float currentV;
+    private float currentH;
+
+    public bool walkable;
     //public float ChangeTime = 3f;
     //public float ChangeTimer;
     public GameObject vfx;
@@ -18,16 +26,7 @@ public class player : MonoBehaviour
     public GameObject YoungSisterBody;
     public GameObject attackCollider;
 
-
-    
-    public float RotateSpeed = 1;
-    public float rotSpeed = 50;
-    public bool walkable;
     public bool attack;
-    private Vector3 moveX;
-    private Vector3 moveZ;
-    private float currentV;
-    private float currentH;
     public bool IsOldSister;
 
     public float ChangeTime = 15;
@@ -35,7 +34,11 @@ public class player : MonoBehaviour
     public int chaange = 1;
     public enum State { OldSister, YoungSister }
     public State currentState;
-
+    //private CharacterController characterController;
+    private void Awake()
+    {
+        //characterController = GetComponent<CharacterController>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -114,14 +117,17 @@ public class player : MonoBehaviour
             currentV = Mathf.Lerp(currentV, v, Time.deltaTime * 20);
             currentH = Mathf.Lerp(currentH, h, Time.deltaTime * 20);
 
-            //currentH = Mathf.Lerp(currentH, h, 10);
-
+            //Vector3 movement = new Vector3(h, 0, v);
+            //characterController.SimpleMove(movement * Time.deltaTime * MoveSpeed);
+            //if(movement.magnitude > 0)
+            //{
+            //    Quaternion newDirection = Quaternion.LookRotation(movement);
+            //    transform.rotation = Quaternion.Slerp(transform.rotation, newDirection, Time.deltaTime * rotSpeed);
+            //}
             transform.position += transform.forward * currentV * Time.deltaTime * MoveSpeed;
-           // transform.position += (moveX + moveZ) * Time.deltaTime * MoveSpeed;
+          
             transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * Time.deltaTime * rotSpeed, 0));
-            //transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * rotSpeed, 0));
-            //transform.localRotation *= Quaternion.Euler(new Vector3(0, currentH * rotSpeed, 0));
-            //transform.rotation *= Quaternion.Euler(0, h  ,0);
+            
         }
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
@@ -132,52 +138,78 @@ public class player : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    hitInfo.collider.transform.parent.gameObject.GetComponent<lightchange>().lightchangebool = true;
+                    hitInfo.collider.transform.gameObject.GetComponent<lightchange>().lightchangebool = true;
     
                 }
             }
         }
+        takedropingCDtimer += Time.deltaTime;
         //拿道具
         if (cantaking == true)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && Istaking == false)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && Istaking == false && takedropingCDtimer >= takedropingCDtime)
             {
                 takeItem();
                 cantaking = false;
+                
             }
         }
         //放置道具
         if (Istaking == true)
         { 
+
             takingItem.transform.position = takingItempoint.position;
             takingItem.transform.rotation = takingItempoint.rotation;
-           // dropingCDtimer += Time.deltaTime;
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                if (hitInfo.collider.gameObject.tag == "Dropcollider" )
-                {
-                    if (Input.GetKeyDown(KeyCode.Mouse0)) //&& dropingCDtimer >= dropingCDtime)
+            //dropingCDtimer += Time.deltaTime;
+            //if (Physics.Raycast(ray, out hitInfo))
+            //{
+            //    if (hitInfo.collider.gameObject.tag == "Dropcollider" )
+            //    {
+                    if (Input.GetKey(KeyCode.Mouse0) && takedropingCDtimer >= takedropingCDtime)
                     {
-                        Istaking = false;
-                        dropingpoint =  hitInfo.collider.transform.parent.gameObject.transform;
-                        takingItem.transform.position = dropingpoint.position;
-                        takingItem = null;
-                        //dropingCDtimer = 0;
+                        dropItem();
+                        
                     }
                   
-                }
-            }
+            //    }
+            //}
         }
     }
-   // public float dropingCDtimer;
-   // public float dropingCDtime = 0.5f;
+
+    private void dropItem()
+    {
+        force = Mathf.Clamp(force, 0, 1000);
+        force += 1000 * Time.deltaTime;
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue);
+        if (force >= 1000)
+            {
+            takedropingCDtimer = 0;
+            Istaking = false;
+            takingItem.transform.position =  new Vector3 (cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
+            takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force);
+            takingItem = null;
+            force = 0;
+        }
+            
+           
+        
+       
+        //Istaking = false;
+        //dropingpoint = hitInfo.collider.transform.parent.gameObject.transform;
+        //takingItem.transform.position = dropingpoint.position;
+        //takingItem = null;
+    }
+
+    public float takedropingCDtimer;
+    public float takedropingCDtime = 0.5f;
     public GameObject takingItem;
     public Transform takingItempoint;
     private Transform dropingpoint;
     public bool cantaking = false;
     public bool Istaking = false;
     public RaycastHit hitInfo;
-   // public float dropforce = 3000;
+    [SerializeField] private float force = 0;
     //尋找道具
     void takeItem()
     {
@@ -198,7 +230,7 @@ public class player : MonoBehaviour
             //沒有檢測到Enemy,將檢測半徑擴大2米
             radius += 0.1f;
         }
-      
+        takedropingCDtimer = 0;
     }
  
 }
