@@ -26,6 +26,7 @@ public class playerCamera : MonoBehaviour
     // Update is called once per frame
     private void Awake()
     {
+        x = player.transform.rotation.x;
         distence = 3.5f;
         sidedistance = 0.5f;
     }
@@ -43,7 +44,7 @@ public class playerCamera : MonoBehaviour
         {
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;
             y -= Input.GetAxis("Mouse Y") * ySpeed * Time.deltaTime;
-            y = Mathf.Clamp(y, -60, 60);
+            y = Mathf.Clamp(y, -30, 30);
             if (x > 360)
             {
                 x -= 360;

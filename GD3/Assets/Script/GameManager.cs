@@ -12,8 +12,7 @@ public class GameManager : MonoBehaviour
 
     public enum State { title,  play,  game_over, end }
     public State currentState;
-    public enum PlayState { OldSister, YoungSister}
-    public PlayState playState;
+    
     // Start is called before the first frame update
     void Start()
     {
