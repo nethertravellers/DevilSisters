@@ -15,8 +15,8 @@ public class firstcaompiete : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            print(collider.transform.gameObject.GetComponent<player>().takingItem.name);
-            if (key == collider.transform.gameObject.GetComponent<player>().takingItem)
+            print(collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.name);
+            if (key == collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem)
             {
                 ui.gameObject.SetActive(true);
             }

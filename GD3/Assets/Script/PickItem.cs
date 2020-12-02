@@ -10,14 +10,14 @@ public class PickItem : MonoBehaviour
     {
         if (Player.tag == "Player")
         {
-            Player.gameObject.GetComponent<player>().cantaking = true;
+            Player.gameObject.GetComponent<playerObjInteraction>().cantaking = true;
         }
     }
     private void OnTriggerExit(Collider Player)
     {
         if (Player.tag == "Player")
         {
-            Player.gameObject.GetComponent<player>().cantaking = false;
+            Player.gameObject.GetComponent<playerObjInteraction>().cantaking = false;
         }
     }
 
