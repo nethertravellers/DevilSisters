@@ -50,8 +50,10 @@ public class playerObjInteraction : MonoBehaviour
         //放置道具
         if (Istaking == true)
         {
+            
             takingItem.transform.position = takingItempoint.position;
             takingItem.transform.rotation = takingItempoint.rotation;
+            takingItem.gameObject.GetComponent<PickItem>().taken = true;
             //dropingCDtimer += Time.deltaTime;
             //if (Physics.Raycast(ray, out hitInfo))
             //{
@@ -85,6 +87,7 @@ public class playerObjInteraction : MonoBehaviour
                     if (cols[i].tag.Equals("Interactive Objects"))
                     {
                         takingItem = cols[i].gameObject;
+                        takingItem.GetComponent<Rigidbody>().Sleep();
                         Istaking = true;
                     }
             //沒有檢測到Enemy,將檢測半徑擴大2米
@@ -97,13 +100,14 @@ public class playerObjInteraction : MonoBehaviour
         IsDroping = true;
         force += Maxforce * Time.deltaTime;
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue);
+        //Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue);
         if (Input.GetKey(KeyCode.Mouse0) && force >= Maxforce)
         {
             takedropingCDtimer = 0;
             Istaking = false;
             takingItem.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
             takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force + new Vector3(0, 10, 0));
+            takingItem.gameObject.GetComponent<PickItem>().taken = false;
             takingItem = null;
             force = 0;
             IsDroping = false;

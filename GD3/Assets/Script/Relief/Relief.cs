@@ -15,9 +15,7 @@ public class Relief : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    Cubered.gameObject.transform.position = new Vector3(-47.5f,0,-2.5f);
-    Cubegreen.gameObject.transform.position = new Vector3(-47.5f,0,0);
-    Cubepurple.gameObject.transform.position = new Vector3(-47.5f,0,2.5f);
+    
         finish = false;
     }
 

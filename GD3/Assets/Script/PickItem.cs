@@ -5,7 +5,7 @@ using UnityEngine;
 public class PickItem : MonoBehaviour
 {
     // Start is called before the first frame update
- 
+    public bool taken = false;
     private void OnTriggerStay(Collider Player)
     {
         if (Player.tag == "Player")
