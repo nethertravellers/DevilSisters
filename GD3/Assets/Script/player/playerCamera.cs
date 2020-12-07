@@ -40,7 +40,7 @@ public class playerCamera : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
-        if (!Input.GetKey(KeyCode.Tab) || player.gameObject.GetComponent<playerObjInteraction>().IsDroping == false)
+        if (player.gameObject.GetComponent<playerObjInteraction>().IsDroping == false)
         {
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;
             y -= Input.GetAxis("Mouse Y") * ySpeed * Time.deltaTime;

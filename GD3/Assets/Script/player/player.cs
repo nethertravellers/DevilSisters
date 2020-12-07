@@ -130,8 +130,16 @@ public class player : MonoBehaviour
             //    Quaternion newDirection = Quaternion.LookRotation(movement);
             //    transform.rotation = Quaternion.Slerp(transform.rotation, newDirection, Time.deltaTime * rotSpeed);
             //}
-            transform.position += transform.forward * currentV * Time.deltaTime * MoveSpeed;         
-            transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * Time.deltaTime * rotSpeed, 0));
+            if (gameObject.GetComponent<playerObjInteraction>().IsDroping == true) 
+            {
+                transform.position += (moveX + moveZ) * Time.deltaTime * MoveSpeed;
+            }
+            else
+            {
+                transform.position += transform.forward * currentV * Time.deltaTime * MoveSpeed;
+                transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * Time.deltaTime * rotSpeed, 0));
+            }
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (ground == true)
