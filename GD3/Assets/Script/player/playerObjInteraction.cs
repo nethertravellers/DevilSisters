@@ -41,7 +41,7 @@ public class playerObjInteraction : MonoBehaviour
         //拿道具
         if (cantaking == true)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && Istaking == false && takedropingCDtimer >= takedropingCDtime)
+            if (Input.GetKeyDown(KeyCode.E) && Istaking == false && takedropingCDtimer >= takedropingCDtime)
             {
                 takeItem();
                 cantaking = false;
@@ -59,11 +59,14 @@ public class playerObjInteraction : MonoBehaviour
             //{
             //    if (hitInfo.collider.gameObject.tag == "Dropcollider" )
             //    {
-            if (Input.GetKey(KeyCode.Mouse0) && takedropingCDtimer >= takedropingCDtime)
+            if (gameObject.GetComponent<player>().IsOldSister == false)
             {
-                dropItem();
+                if (Input.GetKey(KeyCode.Mouse0) && takedropingCDtimer >= takedropingCDtime)
+                {
+                    dropItem();
+                }
             }
-            else if (!Input.GetKey(KeyCode.Mouse0) && force < Maxforce)
+            if (!Input.GetKey(KeyCode.Mouse0) && force < Maxforce)
             {
                 force -= 1000 * Time.deltaTime;
                 IsDroping = false;
