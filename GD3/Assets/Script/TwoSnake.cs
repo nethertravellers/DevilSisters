@@ -5,8 +5,8 @@ using UnityEngine;
 public class TwoSnake : MonoBehaviour
 {
     
-    public GameObject RedballPoint;
-    public GameObject BlueballPoint;
+    public GameObject RedPoint;
+    public GameObject BluePoint;
     public GameObject fakeDoorKey;
     public GameObject DoorKey;
     public bool finish;
@@ -19,8 +19,8 @@ public class TwoSnake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (RedballPoint.gameObject.GetComponent<RedballPoint>().RedHaveItem == true &&
-            BlueballPoint.gameObject.GetComponent<BlueballPoint>().BlueHaveItem == true )
+        if (RedPoint.gameObject.GetComponent<RedPoint>().RedHaveItem == true &&
+            BluePoint.gameObject.GetComponent<BluePoint>().BlueHaveItem == true )
         {            
                 if (finish == false)
                 {

@@ -12,7 +12,7 @@ public class playerCamera : MonoBehaviour
     private float ySpeed = 400;
     [SerializeField]
     private float distence;
-    private float disSpeed = 100;
+    //private float disSpeed = 100;
     private float minDistence = -1;
     private float maxDistence = 3.5f;
     [SerializeField]
@@ -21,8 +21,7 @@ public class playerCamera : MonoBehaviour
     private float sidedistance = 0;
     private Quaternion rotationEuler;
     private Vector3 cameraPosition;
-    [SerializeField]
-    private bool cursorlock = true;
+    
     // Update is called once per frame
     private void Awake()
     {
@@ -32,14 +31,10 @@ public class playerCamera : MonoBehaviour
     }
     void Update()
     {
-        if (cursorlock == true)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+        
+        
+            
+        
         if (player.gameObject.GetComponent<playerObjInteraction>().IsDroping == false)
         {
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;

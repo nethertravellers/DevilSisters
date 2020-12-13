@@ -9,6 +9,7 @@ TagManager:
   - Destoryable Objects
   - lightbutton
   - Dropcollider
+  - putpoint
   layers:
   - Default
   - TransparentFX

@@ -5,20 +5,25 @@ using UnityEngine;
 
 public class firstcaompiete : MonoBehaviour
 {
-    private GameObject key;
-    public GameObject ui;
+    
+    
+    private GameManager gameManager;
+    void Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     private void Update()
     {
-        key = GameObject.Find(name = "DoorKey(Clone)");
+        
     }
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
         {
-            print(collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.name);
-            if (key == collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem)
+            //print(collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.name);
+            if (collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.gameObject.GetComponent<Key>())
             {
-                ui.gameObject.SetActive(true);
+                gameManager.currentState = GameManager.State.end;
             }
                 
 

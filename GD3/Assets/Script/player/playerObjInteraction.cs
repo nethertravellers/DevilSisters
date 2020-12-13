@@ -14,13 +14,15 @@ public class playerObjInteraction : MonoBehaviour
     private Transform dropingpoint;
     public bool cantaking = false;
     public bool Istaking = false;
+    public bool canputing = false;
     public RaycastHit hitInfo;
     [SerializeField] private float force = 0;
     [SerializeField] private float Maxforce = 1000;
-
+    private GameManager gameManager;
+    
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Update()
     {
@@ -31,50 +33,92 @@ public class playerObjInteraction : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.tag == "lightbutton")
             {
+                gameManager.mouse0Active = true;
+                gameManager.mouse0text.text = "點亮";
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     hitInfo.collider.transform.gameObject.GetComponent<lightchange>().lightchangebool = true;
                 }
+            }
+            else
+            {
+                gameManager.mouse0Active = false;
             }
         }
         takedropingCDtimer += Time.deltaTime;
         //拿道具
         if (cantaking == true)
         {
+            gameManager.keyeActive = true;
+            gameManager.keyetext.text = "撿起";
             if (Input.GetKeyDown(KeyCode.E) && Istaking == false && takedropingCDtimer >= takedropingCDtime)
             {
                 takeItem();
                 cantaking = false;
+                gameManager.keyeActive = false;
             }
         }
+        
         //放置道具
         if (Istaking == true)
         {
-            
+            gameManager.keyeActive = false;
             takingItem.transform.position = takingItempoint.position;
             takingItem.transform.rotation = takingItempoint.rotation;
             takingItem.gameObject.GetComponent<PickItem>().taken = true;
-            //dropingCDtimer += Time.deltaTime;
-            //if (Physics.Raycast(ray, out hitInfo))
-            //{
-            //    if (hitInfo.collider.gameObject.tag == "Dropcollider" )
-            //    {
+            
             if (gameObject.GetComponent<player>().IsOldSister == false)
             {
+                gameManager.mouse0Active = true;
+                gameManager.mouse0text.text = "丟";
                 if (Input.GetKey(KeyCode.Mouse0) && takedropingCDtimer >= takedropingCDtime)
                 {
                     dropItem();
                 }
             }
+            
             if (!Input.GetKey(KeyCode.Mouse0) && force < Maxforce)
             {
                 force -= 1000 * Time.deltaTime;
                 IsDroping = false;
             }
             force = Mathf.Clamp(force, 0, Maxforce);
-            //    }
-            //}
+            
+            if(canputing == true)
+            {
+                gameManager.keyeActive = true;
+                gameManager.keyetext.text = "放置";
+                if (Input.GetKey(KeyCode.E) && takedropingCDtimer >= takedropingCDtime)
+                {
+                    putItem();
+                }
+            }
+            
+
         }
+    }
+    public void putItem()
+    {
+        float radius = 0.1f;
+     
+        while (radius < 1)
+        {
+           
+            Collider[] cols = Physics.OverlapSphere(transform.position, radius);
+            
+            if (cols.Length > 0)
+                for (int i = 0; i < cols.Length; i++)
+                    if (cols[i].tag.Equals("putpoint"))
+                    {
+                        
+                            Istaking = false;                            
+                            takingItem = null;
+                        
+                    }
+           
+            radius += 0.1f;
+        }
+        takedropingCDtimer = 0;
     }
     void takeItem()
     {
@@ -113,6 +157,7 @@ public class playerObjInteraction : MonoBehaviour
             takingItem.gameObject.GetComponent<PickItem>().taken = false;
             takingItem = null;
             force = 0;
+            gameManager.mouse0Active = false;
             IsDroping = false;
         }
         //Istaking = false;

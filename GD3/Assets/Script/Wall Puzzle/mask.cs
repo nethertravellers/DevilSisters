@@ -6,10 +6,11 @@ public class mask : MonoBehaviour
 {
     public AudioSource audioSourceSFX;
     public AudioClip audioClip;
-    private GameManager gameManager;
+    
     
     private bool IsInteractive;
     // Start is called before the first frame update
+    private GameManager gameManager;
     void Start()
     {
        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -32,6 +33,7 @@ public class mask : MonoBehaviour
             if (IsInteractive == false)
             {
                 gameManager.keyeActive = true;
+                gameManager.keyetext.text = "互動";
             }
             
             if (Input.GetKeyDown(KeyCode.E) && IsInteractive == false)

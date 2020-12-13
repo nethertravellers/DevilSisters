@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public Button StartBtn;
     public Button EndBtn;
+    public GameObject startmenu;
+    public GameObject endmenu;
 
-    public GameObject menu;
+    public Button ReStartBtn;
+    public Button GameEndBtn;
 
     public bool keyeActive;
     public GameObject keye;
-    public Text keyetest;
+    public Text keyetext;
+    public bool mouse0Active;
+    public GameObject mouse0;
+    public Text mouse0text;
+    public bool mouse1Active;
+    public GameObject mouse1;
+    public Text mouse1text;
 
     public enum State { title,  play,  game_over, end }
     public State currentState;
@@ -20,11 +29,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mouse0Active = false;
+        mouse1Active = false;
         keyeActive = false;
         StartBtn.onClick.AddListener(() => OnStartBtnPressed());
         EndBtn.onClick.AddListener(() => OnEndBtnPressed());
-       // currentState = State.title;
-        currentState = State.play;
+        ReStartBtn.onClick.AddListener(() => OnReStartBtnPressed());
+        GameEndBtn.onClick.AddListener(() => OnEndBtnPressed());
+        currentState = State.title;
+        endmenu.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -34,14 +47,17 @@ public class GameManager : MonoBehaviour
         {
             case State.title:
                 Time.timeScale = 0;
-                menu.gameObject.SetActive(true);
-
+                startmenu.gameObject.SetActive(true);
+                              
                 break;
             
 
             case State.play:              
                 Time.timeScale = 1;
-                if(keyeActive == true)
+                startmenu.gameObject.SetActive(false);
+                //Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Locked;
+                if (keyeActive == true)
                 {
                     keye.gameObject.SetActive(true);
                 }
@@ -49,7 +65,22 @@ public class GameManager : MonoBehaviour
                 {
                     keye.gameObject.SetActive(false);
                 }
-                            
+                if (mouse0Active == true)
+                {
+                    mouse0.gameObject.SetActive(true);
+                }
+                else
+                {
+                    mouse0.gameObject.SetActive(false);
+                }
+                if (mouse1Active == true)
+                {
+                    mouse1.gameObject.SetActive(true);
+                }
+                else
+                {
+                    mouse1.gameObject.SetActive(false);
+                }
 
                 break;
 
@@ -61,12 +92,24 @@ public class GameManager : MonoBehaviour
                 break;
 
             case State.end:
+                Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
+                endmenu.gameObject.SetActive(true);
                 //win.gameObject.SetActive(true);
 
                 break;
         }
     }
-    void OnStartBtnPressed() { }
-    void OnEndBtnPressed() { }
+    void OnStartBtnPressed()
+    {
+        currentState = State.play;
+    }
+    void OnEndBtnPressed()
+    {
+        Application.Quit();
+    }
+    void OnReStartBtnPressed()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

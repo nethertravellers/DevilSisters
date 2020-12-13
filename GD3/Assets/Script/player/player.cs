@@ -40,6 +40,8 @@ public class player : MonoBehaviour
     public enum State { OldSister, YoungSister }
     public State currentState;
     //private CharacterController characterController;
+    
+    
     private void Awake()
     {
         //characterController = GetComponent<CharacterController>();
@@ -47,6 +49,7 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         currentState = State.OldSister;
         walkable = true;
         OldSisterBody.gameObject.SetActive(true);
@@ -116,6 +119,7 @@ public class player : MonoBehaviour
         }
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+        
         if(walkable == true)
         {
             moveX = transform.right * h;

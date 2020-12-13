@@ -5,13 +5,31 @@ using UnityEngine;
 public class AttackDestoryableCollider : MonoBehaviour
 {
     public bool isAttack;
-   
-    void OnTriggerEnter(Collider col)
+    private GameManager gameManager;
+    void Start()
     {
-        if (col.gameObject.tag == "Destoryable Objects" && isAttack == true)
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+    void OnTriggerStay(Collider col)
+    {
+        if (col.gameObject.tag == "Destoryable Objects")
         {
-            col.gameObject.GetComponent<SubObjectGeneration>().IsInstantiate = true;
+            gameManager.mouse1Active = true;
+
+            if (isAttack == true)
+            {
+                col.gameObject.GetComponent<SubObjectGeneration>().IsInstantiate = true;
+                gameManager.mouse1Active = false;
+            }
+            
            
+        }
+    }
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.tag == "Destoryable Objectsr")
+        {
+            gameManager.mouse1Active = false;
         }
     }
 }
