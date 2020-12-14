@@ -44,6 +44,7 @@ public class player : MonoBehaviour
     
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         //characterController = GetComponent<CharacterController>();
     }
     // Start is called before the first frame update

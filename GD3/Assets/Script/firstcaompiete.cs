@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class firstcaompiete : MonoBehaviour
@@ -23,7 +24,8 @@ public class firstcaompiete : MonoBehaviour
             //print(collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.name);
             if (collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.gameObject.GetComponent<Key>())
             {
-                gameManager.currentState = GameManager.State.end;
+                gameManager.OnStartGame("second round");
+                SceneManager.LoadScene(4);
             }
                 
 

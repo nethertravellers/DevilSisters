@@ -5,13 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
-    public Button StartBtn;
-    public Button EndBtn;
-    public GameObject startmenu;
-    public GameObject endmenu;
+    //public Button StartBtn;
+    //public Button EndBtn;
+    //public GameObject startmenu;
+    //public GameObject endmenu;
 
-    public Button ReStartBtn;
-    public Button GameEndBtn;
+    //public Button ReStartBtn;
+    //public Button GameEndBtn;
 
     public bool keyeActive;
     public GameObject keye;
@@ -32,12 +32,12 @@ public class GameManager : MonoBehaviour
         mouse0Active = false;
         mouse1Active = false;
         keyeActive = false;
-        StartBtn.onClick.AddListener(() => OnStartBtnPressed());
-        EndBtn.onClick.AddListener(() => OnEndBtnPressed());
-        ReStartBtn.onClick.AddListener(() => OnReStartBtnPressed());
-        GameEndBtn.onClick.AddListener(() => OnEndBtnPressed());
-        currentState = State.title;
-        endmenu.gameObject.SetActive(false);
+        //StartBtn.onClick.AddListener(() => OnStartBtnPressed());
+        //EndBtn.onClick.AddListener(() => OnEndBtnPressed());
+        //ReStartBtn.onClick.AddListener(() => OnReStartBtnPressed());
+        //GameEndBtn.onClick.AddListener(() => OnEndBtnPressed());
+        currentState = State.play;
+        //endmenu.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,16 +47,16 @@ public class GameManager : MonoBehaviour
         {
             case State.title:
                 Time.timeScale = 0;
-                startmenu.gameObject.SetActive(true);
+                //startmenu.gameObject.SetActive(true);
                               
                 break;
             
 
             case State.play:              
                 Time.timeScale = 1;
-                startmenu.gameObject.SetActive(false);
+                //startmenu.gameObject.SetActive(false);
                 //Cursor.lockState = CursorLockMode.None;
-                Cursor.lockState = CursorLockMode.Locked;
+                //Cursor.lockState = CursorLockMode.Locked;
                 if (keyeActive == true)
                 {
                     keye.gameObject.SetActive(true);
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
             case State.end:
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-                endmenu.gameObject.SetActive(true);
+                //endmenu.gameObject.SetActive(true);
                 //win.gameObject.SetActive(true);
 
                 break;
@@ -111,5 +111,9 @@ public class GameManager : MonoBehaviour
     void OnReStartBtnPressed()
     {
         SceneManager.LoadScene(0);
+    }
+    public void OnStartGame(string ScneneName)
+    {
+        Application.LoadLevel(ScneneName);
     }
 }
