@@ -8,27 +8,35 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    public float MoveSpeed = 1;
-    public float rotSpeed = 50;
+    [SerializeField, Range(0f, 100f)]
+    float maxSpeed = 10f;
+    [SerializeField, Range(0f, 100f)]
+    float maxAcceleration = 10f;
+    Vector3 velocity;
+    [SerializeField]
+    Transform playerInputSpace = default;
+    //public float MoveSpeed = 1;
+    //public float rotSpeed = 50;
 
-    private Vector3 moveX;
-    private Vector3 moveZ;
-    private float currentV;
-    private float currentH;
+    //private Vector3 moveX;
+    //private Vector3 moveZ;
+    //private float currentV;
+    //private float currentH;
 
     public bool walkable;
-
     private bool ground;
     private float JumpSpeed;
-     
+    private Animator animator;
     //public float ChangeTime = 3f;
     //public float ChangeTimer;
     public GameObject vfx;  
    
     public GameObject OldSisterBody;
     public float OSJumpSpeed = 1;
+    private Animator OldSisteranimator;
     public GameObject YoungSisterBody;
     public float YSJumpSpeed = 10;
+    private Animator YoungSisteranimator;
     public GameObject attackCollider;
 
     public bool attack;
@@ -39,18 +47,17 @@ public class player : MonoBehaviour
     public int chaange = 1;
     public enum State { OldSister, YoungSister }
     public State currentState;
-    //private CharacterController characterController;
-    
+
     
     private void Awake()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        //characterController = GetComponent<CharacterController>();
+    {   
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        OldSisteranimator = OldSisterBody.GetComponent<Animator>();
+        YoungSisteranimator = YoungSisterBody.GetComponent<Animator>();
+
         currentState = State.OldSister;
         walkable = true;
         OldSisterBody.gameObject.SetActive(true);
@@ -69,8 +76,8 @@ public class player : MonoBehaviour
     void Update()
     {
         
-        ChangeTimer += Time.deltaTime;
-        if(ChangeTimer >= ChangeTime)
+        //ChangeTimer += Time.deltaTime;
+        if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             chaange = chaange * -1;
             ChangeTimer = 0;
@@ -81,14 +88,14 @@ public class player : MonoBehaviour
             case State.OldSister:
                 IsOldSister = true;
                 JumpSpeed = OSJumpSpeed;
-
+                animator = OldSisteranimator;
                 if (chaange == -1)
                 {
                     walkable = false;
                     //ChangeTimer += Time.deltaTime;
                     GameObject newVFX = Instantiate(vfx, gameObject.transform.position, Quaternion.identity);
                     Destroy(newVFX, 2);
-                    Invoke("walk",1.5f);
+                    Invoke("walk",0f);
 
                     OldSisterBody.gameObject.SetActive(false);
                     YoungSisterBody.gameObject.SetActive(true);
@@ -98,6 +105,7 @@ public class player : MonoBehaviour
             case State.YoungSister:
                 IsOldSister = false;
                 JumpSpeed = YSJumpSpeed;
+                animator = YoungSisteranimator;
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
                     attackCollider.GetComponent<AttackDestoryableCollider>().isAttack = true;
@@ -110,53 +118,72 @@ public class player : MonoBehaviour
                     //ChangeTimer += Time.deltaTime;
                     GameObject newVFX = Instantiate(vfx, gameObject.transform.position, Quaternion.identity);
                     Destroy(newVFX, 2);
-                    Invoke("walk", 1.5f);
+                    Invoke("walk", 0f);
 
                     OldSisterBody.gameObject.SetActive(true);
                     YoungSisterBody.gameObject.SetActive(false);
                         currentState = State.OldSister;     
                 }
                 break;
-        }
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        
-        if(walkable == true)
-        {
-            moveX = transform.right * h;
-            moveZ = transform.forward * v;
-            currentV = Mathf.Lerp(currentV, v, Time.deltaTime * 20);
-            currentH = Mathf.Lerp(currentH, h, Time.deltaTime * 20);
+        }   
+        Vector2 playerInput;
+        playerInput.x = 0f;
+        playerInput.y = 0f;
+        playerInput.x = Input.GetAxis("Horizontal");
+        playerInput.y = Input.GetAxis("Vertical");
+        playerInput = Vector2.ClampMagnitude(playerInput, 1f);
 
-            //Vector3 movement = new Vector3(h, 0, v);
-            //characterController.SimpleMove(movement * Time.deltaTime * MoveSpeed);
-            //if(movement.magnitude > 0)
-            //{
-            //    Quaternion newDirection = Quaternion.LookRotation(movement);
-            //    transform.rotation = Quaternion.Slerp(transform.rotation, newDirection, Time.deltaTime * rotSpeed);
-            //}
-            if (gameObject.GetComponent<playerObjInteraction>().IsDroping == true) 
+        if (walkable == true)
+        {
+            Vector3 desiredVelocity;
+            if (playerInputSpace)
             {
-                transform.position += (moveX + moveZ) * Time.deltaTime * MoveSpeed;
+                Vector3 forward;
+                forward.y = 0f;  
+                Vector3 right;
+                right.y = 0f;
+                if (gameObject.GetComponent<playerObjInteraction>().IsDroping == true)
+                {
+                    forward =  gameObject.transform.forward;
+                    right = gameObject.transform.right;
+                }
+                else
+                {
+                    forward = playerInputSpace.forward;
+                    forward.Normalize();
+                    right = playerInputSpace.right;
+                    right.Normalize();
+                }
+                desiredVelocity = (forward * playerInput.y + right * playerInput.x) * maxSpeed;
             }
             else
             {
-                transform.position += transform.forward * currentV * Time.deltaTime * MoveSpeed;
-                transform.rotation *= Quaternion.Euler(new Vector3(0, currentH * Time.deltaTime * rotSpeed, 0));
+                desiredVelocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
             }
+            float maxSpeedChange = maxAcceleration * Time.deltaTime;
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+            velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
+            Vector3 displacement = velocity * Time.deltaTime;
+            transform.localPosition += displacement;
+            
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (ground == true)
                 {
+                    animator.SetTrigger("jump");
                     //transform.Translate(new Vector3(Input.GetAxis(“Horizontal”)*distance, 2, Input.GetAxis(“Vertical”)*distance));
-                    GetComponent<Rigidbody>().velocity = new Vector3(0, 5, 0);
-                    GetComponent<Rigidbody>().AddForce(Vector3.up * JumpSpeed);
-                    ground = false;     
+                    Invoke("jump", 0.7f);
                 }
             }
         }     
     }   
+    void jump()
+    {
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 5, 0);
+        GetComponent<Rigidbody>().AddForce(Vector3.up * JumpSpeed);
+        ground = false;
+    }
     void OnCollisionEnter(Collision collision)
     {
         ground = true;
