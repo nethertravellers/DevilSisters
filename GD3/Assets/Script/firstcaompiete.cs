@@ -25,7 +25,7 @@ public class firstcaompiete : MonoBehaviour
             if (collider.transform.gameObject.GetComponent<playerObjInteraction>().takingItem.gameObject.GetComponent<Key>())
             {
                 gameManager.OnStartGame("second round");
-                SceneManager.LoadScene(4);
+                //SceneManager.LoadScene(4);
             }
                 
 

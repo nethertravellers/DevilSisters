@@ -26,7 +26,7 @@ public class player : MonoBehaviour
     public bool walkable;
     private bool ground;
     private float JumpSpeed;
-    private Animator animator;
+    public Animator animator;
     //public float ChangeTime = 3f;
     //public float ChangeTimer;
     public GameObject vfx;  
@@ -165,8 +165,17 @@ public class player : MonoBehaviour
             velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
             Vector3 displacement = velocity * Time.deltaTime;
             transform.localPosition += displacement;
+            if (displacement.x == 0 && displacement.z == 0)
+            {
+                animator.SetBool("walk", false);
+            }
+            else
+            {
+                animator.SetBool("walk", true);
+            }
             
-            
+
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (ground == true)

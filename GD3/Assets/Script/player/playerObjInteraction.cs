@@ -6,11 +6,14 @@ public class playerObjInteraction : MonoBehaviour
 {
     // public GameObject playercamera;
     public Camera cam;
+    private Animator animator;
     public bool IsDroping = false;
     public float takedropingCDtimer;
     public float takedropingCDtime = 0.5f;
     public GameObject takingItem;
     public Transform takingItempoint;
+    public Transform oldtakingItempoint;
+    public Transform youngtakingItempoint;
     private Transform dropingpoint;
     public bool cantaking = false;
     public bool Istaking = false;
@@ -22,10 +25,19 @@ public class playerObjInteraction : MonoBehaviour
     
     void Start()
     {
+        
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Update()
     {
+        if (gameObject.GetComponent<player>().IsOldSister == false)
+        {
+            takingItempoint = youngtakingItempoint;
+        }
+        else
+        {
+            takingItempoint = oldtakingItempoint;
+        }
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
 
@@ -110,9 +122,18 @@ public class playerObjInteraction : MonoBehaviour
                 for (int i = 0; i < cols.Length; i++)
                     if (cols[i].tag.Equals("putpoint"))
                     {
-                        
-                            Istaking = false;                            
-                            takingItem = null;
+                        takingItem.GetComponent<MeshCollider>().isTrigger = false;
+                        int Obj_childCount = takingItem.transform.childCount;
+                        for (int f = 0; f < Obj_childCount; f++)
+                        {
+                            takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = false;
+                        }
+                        Istaking = false;
+                        takingItem.gameObject.transform.position = cols[i].transform.position +new Vector3(0,2,0);
+                        takingItem.GetComponent<Rigidbody>().Sleep();
+                        takingItem.gameObject.GetComponent<PickItem>().taken = false;
+                        cols[i].GetComponent<KeyPoint>().key = takingItem;
+                        takingItem = null;
                         
                     }
            
@@ -131,9 +152,19 @@ public class playerObjInteraction : MonoBehaviour
             //判斷檢測到的物件中有沒有Enemy
             if (cols.Length > 0)
                 for (int i = 0; i < cols.Length; i++)
-                    if (cols[i].tag.Equals("Interactive Objects"))
+                    if (cols[i].tag.Equals("putpoint"))
+                    {
+                        cols[i].GetComponent<KeyPoint>().key = null;
+                    }
+                  else  if (cols[i].tag.Equals("Interactive Objects"))
                     {
                         takingItem = cols[i].gameObject;
+                        takingItem.GetComponent<MeshCollider>().isTrigger = true;
+                        int Obj_childCount = takingItem.transform.childCount;
+                        for (int f = 0; f < Obj_childCount; f++)
+                        {
+                            takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = true;
+                        }
                         takingItem.GetComponent<Rigidbody>().Sleep();
                         Istaking = true;
                     }
@@ -144,15 +175,23 @@ public class playerObjInteraction : MonoBehaviour
     }
     private void dropItem()
     {
+        
         IsDroping = true;
         force += Maxforce * Time.deltaTime;
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         //Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue);
         if (Input.GetKey(KeyCode.Mouse0) && force >= Maxforce)
         {
+            gameObject.GetComponent<player>().animator.SetTrigger("throw");
             takedropingCDtimer = 0;
             Istaking = false;
             takingItem.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
+            takingItem.GetComponent<MeshCollider>().isTrigger = false;
+            int Obj_childCount = takingItem.transform.childCount;
+            for (int f = 0; f < Obj_childCount; f++)
+            {
+                takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = false;
+            }
             takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force + new Vector3(0, 10, 0));
             takingItem.gameObject.GetComponent<PickItem>().taken = false;
             takingItem = null;

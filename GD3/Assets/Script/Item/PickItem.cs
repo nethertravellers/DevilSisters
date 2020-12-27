@@ -13,20 +13,27 @@ public class PickItem : MonoBehaviour
     public bool taken = false;
     private void OnTriggerStay(Collider Player)
     {
-        if (Player.tag == "Player" && Player.gameObject.GetComponent<playerObjInteraction>().Istaking == false)
+        if(taken == false)
         {
-            gameManager.keyeActive = true;
-            gameManager.keyetext.text = "撿起";
-            Player.gameObject.GetComponent<playerObjInteraction>().cantaking = true;
+            if (Player.tag == "Player" && Player.gameObject.GetComponent<playerObjInteraction>().Istaking == false)
+            {
+                gameManager.keyeActive = true;
+                gameManager.keyetext.text = "撿起";
+                Player.gameObject.GetComponent<playerObjInteraction>().cantaking = true;
+            }
         }
+       
     }
     private void OnTriggerExit(Collider Player)
     {
-        if (Player.tag == "Player" && Player.gameObject.GetComponent<playerObjInteraction>().Istaking == false)
+        if (taken == false)
         {
-            gameManager.keyeActive = false;
-            Player.gameObject.GetComponent<playerObjInteraction>().cantaking = false;
-        }
+            if (Player.tag == "Player" && Player.gameObject.GetComponent<playerObjInteraction>().Istaking == false)
+            {
+                gameManager.keyeActive = false;
+                Player.gameObject.GetComponent<playerObjInteraction>().cantaking = false;
+            }
+        }       
     }
 
 }

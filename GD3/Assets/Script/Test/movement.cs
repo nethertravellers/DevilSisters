@@ -8,9 +8,12 @@ public class movement : MonoBehaviour
     float maxSpeed = 10f;
     [SerializeField, Range(0f, 100f)]
     float maxAcceleration = 10f;
+    //[SerializeField, Range(0f, 360f)]
+    //float tandisplacement = 0;
     Vector3 velocity;
     [SerializeField]
     Transform playerInputSpace = default;
+   
     void Start()
     {  
     }
@@ -43,7 +46,10 @@ public class movement : MonoBehaviour
         velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
         Vector3 displacement = velocity * Time.deltaTime;    
         transform.localPosition += displacement;
+        float TurnAmount = Mathf.Atan2(displacement.x, displacement.z);
+        float turnSpeed = Mathf.Lerp(180, 360, displacement.x); 
+            transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);      
+        transform.Rotate(0, TurnAmount * turnSpeed * Time.deltaTime, 0);
         
-
     }
 }
