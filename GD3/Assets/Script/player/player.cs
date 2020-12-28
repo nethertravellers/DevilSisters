@@ -108,6 +108,7 @@ public class player : MonoBehaviour
                 animator = YoungSisteranimator;
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
+                    animator.SetTrigger("attack");
                     attackCollider.GetComponent<AttackDestoryableCollider>().isAttack = true;
                     Invoke("isAttacked", 2f);
                 }
@@ -165,12 +166,15 @@ public class player : MonoBehaviour
             velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
             Vector3 displacement = velocity * Time.deltaTime;
             transform.localPosition += displacement;
+            
+            //transform.forward.x = Mathf.Lerp(transform.forward.x, displacement.x, rotSpeed * Time.deltaTime);
             if (displacement.x == 0 && displacement.z == 0)
             {
                 animator.SetBool("walk", false);
             }
             else
             {
+                transform.forward = displacement;
                 animator.SetBool("walk", true);
             }
             
