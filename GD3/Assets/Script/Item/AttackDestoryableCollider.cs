@@ -14,7 +14,7 @@ public class AttackDestoryableCollider : MonoBehaviour
     {
         if (col.gameObject.tag == "Destoryable Objects")
         {
-            gameManager.mouse1Active = true;
+
 
             if (isAttack == true)
             {
@@ -23,13 +23,6 @@ public class AttackDestoryableCollider : MonoBehaviour
             }
             
            
-        }
-    }
-    private void OnTriggerExit(Collider col)
-    {
-        if (col.tag == "Destoryable Objectsr")
-        {
-            gameManager.mouse1Active = false;
         }
     }
 }

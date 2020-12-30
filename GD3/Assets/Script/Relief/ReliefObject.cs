@@ -15,10 +15,6 @@ public class ReliefObject : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         
     }
-    public void Droped()
-    {
-
-    }
     void Start()
     {
         

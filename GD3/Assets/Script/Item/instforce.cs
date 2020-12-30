@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class instforce : MonoBehaviour
 {
+    private GameObject player;
     private void Awake()
     {
-        gameObject.GetComponent<Rigidbody>().AddForce(Random.Range(1, 10), Random.Range(1, 10), Random.Range(1, 10));
+        player = GameObject.Find("player");
+        Vector3 move =   gameObject.transform.position -player.transform.position;
+        gameObject.GetComponent<Rigidbody>().AddForce(move.x *250, move.y *150, move.z * 250);
     }
 }

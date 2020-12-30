@@ -6,12 +6,30 @@ public class ReliefRed : MonoBehaviour
 {
     public bool RedHaveItem = false;
     public bool RedInRed = false;
+    private GameObject redobj;
+    private void Update()
+    {
+        redobj.transform.position = gameObject.transform.position;
+        redobj.transform.rotation = gameObject.transform.rotation;
+
+        redobj.GetComponent<Rigidbody>().Sleep();
+        if (redobj != null)
+        {
+            RedHaveItem = true;
+        }
+    }
     private void OnTriggerStay(Collider Item)
     {
         if (Item.tag == "Interactive Objects")
         {
-            RedHaveItem = true;
-            if(Item.name == "Cubered")
+            if (redobj == null)
+            {
+                redobj = Item.gameObject;
+                
+            }
+          
+            
+            if(Item.name == "redobj")
             {
                 RedInRed = true;
             }
@@ -19,6 +37,7 @@ public class ReliefRed : MonoBehaviour
     }
     public void Reset()
     {
+     redobj = null;
      RedHaveItem = false;
      RedInRed = false;
     }

@@ -10,12 +10,12 @@ public class Relief : MonoBehaviour
     public GameObject ReliefRed;
     public GameObject ReliefGreen;
     public GameObject ReliefPurple;
-    public GameObject RedballKey;
+    public GameObject RedKey;
     public bool finish;
     // Start is called before the first frame update
     void Start()
     {
-    
+        RedKey.gameObject.SetActive(false);
         finish = false;
     }
 
@@ -32,16 +32,19 @@ public class Relief : MonoBehaviour
             {
                 if(finish == false)
                 {
-                    Instantiate(RedballKey, new Vector3(-47.5f, 10, 0), new Quaternion(0,0,0,0));
+                    RedKey.gameObject.SetActive(true);
                     finish = true;
                 }
             }
             else
             {
-               Start();
-                ReliefRed.gameObject.GetComponent<ReliefRed>().Reset();
-                ReliefGreen.gameObject.GetComponent<ReliefGreen>().Reset();
-              ReliefPurple.gameObject.GetComponent<ReliefPurple>().Reset();
+            //   Start();
+            //    ReliefRed.gameObject.GetComponent<ReliefRed>().Reset();
+            //    ReliefGreen.gameObject.GetComponent<ReliefGreen>().Reset();
+            //  ReliefPurple.gameObject.GetComponent<ReliefPurple>().Reset();
+            //    Cubered.gameObject.GetComponent<PickItem>().Respawned();
+            //    Cubegreen.gameObject.GetComponent<PickItem>().Respawned();
+            //    Cubepurple.gameObject.GetComponent<PickItem>().Respawned();
             }
         }
     }

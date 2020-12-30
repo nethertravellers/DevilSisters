@@ -4,10 +4,31 @@ using UnityEngine;
 
 public class PickItem : MonoBehaviour
 {
+    private Vector3 spawnedpoint;
     private GameManager gameManager;
+    private void Awake()
+    {
+        spawnedpoint = gameObject.transform.position;
+
+    }
+    public void Respawned()
+    {
+        gameObject.GetComponent<Rigidbody>().Sleep();
+        gameObject.transform.position = spawnedpoint;
+        
+
+    }
     void Start()
     {
+        
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Respawned();
+        }
     }
     // Start is called before the first frame update
     public bool taken = false;

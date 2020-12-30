@@ -52,8 +52,8 @@ public class playerCamera : MonoBehaviour
         }
         if (player.gameObject.GetComponent<playerObjInteraction>().IsDroping == true)
         {
-            distence = Mathf.Lerp(distence, -1, Time.deltaTime * 20);
-            sidedistance = Mathf.Lerp(distence, 0, Time.deltaTime * 20);
+            distence = Mathf.Lerp(distence, -2, Time.deltaTime * 20);
+            sidedistance = Mathf.Lerp(sidedistance, 0, Time.deltaTime * 20);
         }
         else
         {
