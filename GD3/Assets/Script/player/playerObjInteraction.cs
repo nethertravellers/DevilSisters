@@ -177,31 +177,64 @@ public class playerObjInteraction : MonoBehaviour
     {
         
         IsDroping = true;
+       if( force <= Maxforce)
+        {
+            force += Maxforce * Time.deltaTime;
+        }
         force += Maxforce * Time.deltaTime;
-        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        
+        
         //Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue);
         if (Input.GetKey(KeyCode.Mouse0) && force >= Maxforce)
         {
             gameObject.GetComponent<player>().animator.SetTrigger("throw");
-            takedropingCDtimer = 0;
-            Istaking = false;
-            takingItem.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
-            takingItem.GetComponent<MeshCollider>().isTrigger = false;
-            int Obj_childCount = takingItem.transform.childCount;
-            for (int f = 0; f < Obj_childCount; f++)
-            {
-                takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = false;
-            }
-            takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force + new Vector3(0, 10, 0));
-            takingItem.gameObject.GetComponent<PickItem>().taken = false;
-            takingItem = null;
-            force = 0;
-            gameManager.mouse0Active = false;
-            IsDroping = false;
+            Invoke("drop", 0f);
         }
         //Istaking = false;
         //dropingpoint = hitInfo.collider.transform.parent.gameObject.transform;
         //takingItem.transform.position = dropingpoint.position;
         //takingItem = null;
+    }
+    void drop()
+    {
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        takedropingCDtimer = 0;
+        Istaking = false;
+        takingItem.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
+        takingItem.GetComponent<MeshCollider>().isTrigger = false;
+        int Obj_childCount = takingItem.transform.childCount;
+        for (int f = 0; f < Obj_childCount; f++)
+        {
+            takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = false;
+        }
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            if (hitInfo.collider.gameObject.tag == "Dropcollider")
+            {
+                if (hitInfo.collider.GetComponent<ReliefRed>())
+                {
+                    hitInfo.collider.GetComponent<ReliefRed>().redobj = takingItem;
+                }
+                if (hitInfo.collider.GetComponent<ReliefGreen>())
+                {
+                    hitInfo.collider.GetComponent<ReliefGreen>().greenobj = takingItem;
+                }
+                    
+                if (hitInfo.collider.GetComponent<ReliefPurple>())
+                {
+                    hitInfo.collider.GetComponent<ReliefPurple>().purpleobj = takingItem;
+                }
+                    
+            }
+            else
+            {
+                takingItem.GetComponent<Rigidbody>().AddForce(ray.direction * force + new Vector3(0, 10, 0));
+            }
+        }
+        takingItem.gameObject.GetComponent<PickItem>().taken = false;
+        takingItem = null;
+        force = 0;
+        gameManager.mouse0Active = false;
+        IsDroping = false;
     }
 }

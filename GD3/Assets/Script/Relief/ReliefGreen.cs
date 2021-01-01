@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ReliefGreen : MonoBehaviour
 {
-    private GameObject greenobj;
+    public GameObject greenobj;
     public bool GreenHaveItem = false;
     public bool GreenInGreen = false;
     private void Update()
@@ -16,25 +16,12 @@ public class ReliefGreen : MonoBehaviour
         {
             GreenHaveItem = true;
         }
-        
-    }
-    private void OnTriggerStay(Collider Item)
-    {
-        if (Item.tag == "Interactive Objects")
+        if (greenobj.name == "greenobj")
         {
-            if (greenobj == null)
-            {
-                greenobj = Item.gameObject;
-                
-            }
-            
-            
-            if (Item.name == "greenobj")
-            {
-                GreenInGreen = true;
-            }
+            GreenInGreen = true;
         }
     }
+    
     public void Reset()
     {
         greenobj = null;

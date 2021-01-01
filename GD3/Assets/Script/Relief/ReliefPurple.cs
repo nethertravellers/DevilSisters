@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ReliefPurple : MonoBehaviour
 {
-    private GameObject purpleobj;
+    public GameObject purpleobj;
     public bool PurpleHaveItem = false;
     public bool PurpleInPurple = false;
     private void Update()
@@ -17,24 +17,28 @@ public class ReliefPurple : MonoBehaviour
         {
             PurpleHaveItem = true;
         }
-    }
-    private void OnTriggerStay(Collider Item)
-    {
-        if (Item.tag == "Interactive Objects")
+        if (purpleobj.name == "purpleobj")
         {
-            if (purpleobj == null)
-            {
-                purpleobj = Item.gameObject;
-                
-            }
-           
-           
-            if (Item.name == "purpleobj")
-            {
-                PurpleInPurple = true;
-            }
+            PurpleInPurple = true;
         }
     }
+   // private void OnTriggerStay(Collider Item)
+   // {
+   //     if (Item.tag == "Interactive Objects")
+   //     {
+            //if (purpleobj == null)
+            //{
+            //    purpleobj = Item.gameObject;
+            //    
+            //}
+           
+           
+   //         if (Item.name == "purpleobj")
+    //        {
+   //             PurpleInPurple = true;
+   //         }
+   //     }
+   // }
     public void Reset()
     {
         purpleobj = null;

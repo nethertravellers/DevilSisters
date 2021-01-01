@@ -38,13 +38,13 @@ public class Relief : MonoBehaviour
             }
             else
             {
-            //   Start();
-            //    ReliefRed.gameObject.GetComponent<ReliefRed>().Reset();
-            //    ReliefGreen.gameObject.GetComponent<ReliefGreen>().Reset();
-            //  ReliefPurple.gameObject.GetComponent<ReliefPurple>().Reset();
-            //    Cubered.gameObject.GetComponent<PickItem>().Respawned();
-            //    Cubegreen.gameObject.GetComponent<PickItem>().Respawned();
-            //    Cubepurple.gameObject.GetComponent<PickItem>().Respawned();
+               Start();
+                ReliefRed.gameObject.GetComponent<ReliefRed>().Reset();
+                ReliefGreen.gameObject.GetComponent<ReliefGreen>().Reset();
+              ReliefPurple.gameObject.GetComponent<ReliefPurple>().Reset();
+                Cubered.gameObject.GetComponent<PickItem>().Respawned();
+                Cubegreen.gameObject.GetComponent<PickItem>().Respawned();
+                Cubepurple.gameObject.GetComponent<PickItem>().Respawned();
             }
         }
     }

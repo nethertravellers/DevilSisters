@@ -15,7 +15,7 @@ public class PickItem : MonoBehaviour
     {
         gameObject.GetComponent<Rigidbody>().Sleep();
         gameObject.transform.position = spawnedpoint;
-        
+        gameObject.GetComponent<MeshCollider>().isTrigger = false;
 
     }
     void Start()
