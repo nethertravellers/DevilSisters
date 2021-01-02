@@ -18,7 +18,8 @@ public class player : MonoBehaviour
     [SerializeField]
     Transform playerInputSpace = default;
     //public float MoveSpeed = 1;
-    //public float rotSpeed = 50;
+    [SerializeField]
+     float rotSpeed = 50;
 
     //private Vector3 moveX;
     //private Vector3 moveZ;
@@ -148,11 +149,13 @@ public class player : MonoBehaviour
                 if (gameObject.GetComponent<playerObjInteraction>().IsDroping == true)
                 {
                     forward =  gameObject.transform.forward;
+                    
                     right = gameObject.transform.right;
+                    
                 }
                 else
                 {
-                    forward = playerInputSpace.forward;
+                    forward = playerInputSpace.forward;                    
                     forward.Normalize();
                     right = playerInputSpace.right;
                     right.Normalize();
@@ -167,8 +170,11 @@ public class player : MonoBehaviour
             velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
             velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
             Vector3 displacement = velocity * Time.deltaTime;
-            transform.localPosition += displacement;
+            Vector3 playerposition = transform.position + displacement;
             
+            transform.localPosition =Vector3.Lerp(transform.position, playerposition, 60* Time.deltaTime);
+            //transform.localPosition +=displacement; 
+
             //transform.forward.x = Mathf.Lerp(transform.forward.x, displacement.x, rotSpeed * Time.deltaTime);
             if (displacement.x == 0 && displacement.z == 0)
             {
@@ -176,7 +182,7 @@ public class player : MonoBehaviour
             }
             else
             {
-                transform.forward = displacement;
+                transform.forward =  Vector3.Lerp(transform.forward, displacement, rotSpeed * Time.deltaTime);
                 animator.SetBool("walk", true);
             }
             

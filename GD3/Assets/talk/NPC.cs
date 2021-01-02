@@ -13,6 +13,8 @@ public class NPC : MonoBehaviour {
     private float dialoguepositionZ;
     [SerializeField]
     private float dialoguepositionY;
+    [SerializeField]
+    private float dialoguepositionX;
     private DialogueSystem dialogueSystem;
 
     public string Name;
@@ -29,6 +31,7 @@ public class NPC : MonoBehaviour {
         Vector3 Pos = NPCCharacter.position;
           Pos.y += dialoguepositionY;
         Pos.z += dialoguepositionZ;
+        Pos.x += dialoguepositionX;
         ChatUI.transform.position = Pos;
     }
 

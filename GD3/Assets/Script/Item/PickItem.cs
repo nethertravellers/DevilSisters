@@ -6,10 +6,11 @@ public class PickItem : MonoBehaviour
 {
     private Vector3 spawnedpoint;
     private GameManager gameManager;
+    private Vector3 Ogscale;
     private void Awake()
     {
         spawnedpoint = gameObject.transform.position;
-
+        Ogscale = gameObject.transform.localScale;
     }
     public void Respawned()
     {
@@ -25,10 +26,18 @@ public class PickItem : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+       if (taken == true)
         {
-            Respawned();
+            gameObject.transform.localScale = Ogscale * 0.3f;
         }
+        else
+        {
+            gameObject.transform.localScale = Ogscale;
+        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    Respawned();
+        //}
     }
     // Start is called before the first frame update
     public bool taken = false;
