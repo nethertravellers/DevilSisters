@@ -8,7 +8,7 @@ public class mask : MonoBehaviour
     public AudioClip audioClip;
     
     
-    private bool IsInteractive;
+    public bool IsInteractive;
     // Start is called before the first frame update
     private GameManager gameManager;
     void Start()
@@ -19,7 +19,11 @@ public class mask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (IsInteractive ==  false)
+        {
+            audioSourceSFX.Stop();
+        }
+        
     }
     public void PlaySoundFX(AudioClip clip)
     {       
@@ -32,16 +36,16 @@ public class mask : MonoBehaviour
         {
             if (IsInteractive == false)
             {
-                gameManager.keyeActive = true;
-                gameManager.keyetext.text = "互動";
+                //gameManager.keyeActive = true;
+                //gameManager.keyetext.text = "互動";
             }
             
             if (Input.GetKeyDown(KeyCode.E) && IsInteractive == false)
             {
                 IsInteractive = true;
                 PlaySoundFX(audioClip);
-                gameManager.keyeActive = false;
-                Invoke("reclick", 7f);
+                //gameManager.keyeActive = false;
+                
             }
         }
     }
@@ -50,12 +54,12 @@ public class mask : MonoBehaviour
     {
         if (Player.tag == "Player")
         {
-            gameManager.keyeActive = false;
+            //gameManager.keyeActive = false;
         }
     }
-   private void reclick()
-    {
-        IsInteractive = false;
-    }
+   //private void reclick()
+   // {
+   //     IsInteractive = false;
+   // }
    
 }

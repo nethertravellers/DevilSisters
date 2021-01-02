@@ -11,11 +11,13 @@ public class Relief : MonoBehaviour
     public GameObject ReliefGreen;
     public GameObject ReliefPurple;
     public GameObject RedKey;
+    public GameObject Cage;
     public bool finish;
     // Start is called before the first frame update
     void Start()
     {
         RedKey.gameObject.SetActive(false);
+        Cage.gameObject.SetActive(false);
         finish = false;
     }
 
@@ -33,6 +35,7 @@ public class Relief : MonoBehaviour
                 if(finish == false)
                 {
                     RedKey.gameObject.SetActive(true);
+                    Cage.gameObject.SetActive(true);
                     finish = true;
                 }
             }

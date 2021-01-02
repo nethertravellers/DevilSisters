@@ -10,6 +10,7 @@ TagManager:
   - lightbutton
   - Dropcollider
   - putpoint
+  - Ground
   layers:
   - Default
   - TransparentFX

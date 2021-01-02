@@ -28,5 +28,9 @@ public class InteractiveObjectReset : MonoBehaviour
         {
             collider.gameObject.GetComponent<PickItem>().Respawned();
         }
+        if (collider.tag == "Player")
+        {
+            collider.gameObject.GetComponent<playerreset>().Playerreset();
+        }
     }
 }

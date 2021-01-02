@@ -95,8 +95,8 @@ public class player : MonoBehaviour
                 {
                     walkable = false;
                     //ChangeTimer += Time.deltaTime;
-                    GameObject newVFX = Instantiate(vfx, gameObject.transform.position, Quaternion.identity);
-                    Destroy(newVFX, 2);
+                    //GameObject newVFX = Instantiate(vfx, gameObject.transform.position, Quaternion.identity);
+                    //Destroy(newVFX, 2);
                     Invoke("walk",0f);
 
                     OldSisterBody.gameObject.SetActive(false);
@@ -119,8 +119,8 @@ public class player : MonoBehaviour
                 {
                     walkable = false;
                     //ChangeTimer += Time.deltaTime;
-                    GameObject newVFX = Instantiate(vfx, gameObject.transform.position, Quaternion.identity);
-                    Destroy(newVFX, 2);
+                    //GameObject newVFX = Instantiate(vfx, gameObject.transform.position, Quaternion.identity);
+                    //Destroy(newVFX, 2);
                     Invoke("walk", 0f);
 
                     OldSisterBody.gameObject.SetActive(true);

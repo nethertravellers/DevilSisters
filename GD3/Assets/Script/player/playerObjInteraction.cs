@@ -77,6 +77,13 @@ public class playerObjInteraction : MonoBehaviour
             gameManager.keyeActive = false;
             takingItem.transform.position = takingItempoint.position;
             takingItem.transform.rotation = takingItempoint.rotation;
+            takingItem.GetComponent<MeshCollider>().isTrigger = true;
+            int Obj_childCount = takingItem.transform.childCount;
+            for (int f = 0; f < Obj_childCount; f++)
+            {
+                takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = true;
+            }
+            
             takingItem.gameObject.GetComponent<PickItem>().taken = true;
             
             if (gameObject.GetComponent<player>().IsOldSister == false)
@@ -159,12 +166,6 @@ public class playerObjInteraction : MonoBehaviour
                   else  if (cols[i].tag.Equals("Interactive Objects"))
                     {
                         takingItem = cols[i].gameObject;
-                        takingItem.GetComponent<MeshCollider>().isTrigger = true;
-                        int Obj_childCount = takingItem.transform.childCount;
-                        for (int f = 0; f < Obj_childCount; f++)
-                        {
-                            takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = true;
-                        }
                         takingItem.GetComponent<Rigidbody>().Sleep();
                         Istaking = true;
                     }

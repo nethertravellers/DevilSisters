@@ -27,7 +27,7 @@ public class playerCamera : MonoBehaviour
     {
         x = player.transform.rotation.x;
         distence = 3.5f;
-        sidedistance = 0.5f;
+        sidedistance = 0.6f;
     }
     void Update()
     {
@@ -58,7 +58,7 @@ public class playerCamera : MonoBehaviour
         else
         {
             distence = Mathf.Lerp(distence, 3.5f, Time.deltaTime * 20);
-            sidedistance = Mathf.Lerp(sidedistance, 0.5f, Time.deltaTime * 20);
+            sidedistance = Mathf.Lerp(sidedistance, 0.6f, Time.deltaTime * 20);
         }
         //distence -= Input.GetAxis("Mouse ScrollWheel") * disSpeed * Time.deltaTime;
         distence = Mathf.Clamp(distence, minDistence, maxDistence);

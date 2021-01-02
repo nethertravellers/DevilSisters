@@ -19,7 +19,7 @@ public class AttackDestoryableCollider : MonoBehaviour
             if (isAttack == true)
             {
                 col.gameObject.GetComponent<SubObjectGeneration>().IsInstantiate = true;
-                gameManager.mouse1Active = false;
+                
             }
             
            
