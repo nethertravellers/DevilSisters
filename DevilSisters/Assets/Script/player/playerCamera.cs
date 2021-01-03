@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class playerCamera : MonoBehaviour
 {
-     
+    public bool mouselock;
     public Transform player;
     private float x;
     private float y;
@@ -31,10 +31,20 @@ public class playerCamera : MonoBehaviour
     }
     void Update()
     {
-        
-        
+        if (mouselock == true)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             
-        
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+
+
         if (player.gameObject.GetComponent<playerObjInteraction>().IsDroping == false)
         {
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;

@@ -139,7 +139,7 @@ public class player : MonoBehaviour
 
         if (walkable == true)
         {
-            Vector3 desiredVelocity;
+            //Vector3 desiredVelocity;
             if (playerInputSpace)
             {
                 Vector3 forward;
@@ -160,31 +160,40 @@ public class player : MonoBehaviour
                     right = playerInputSpace.right;
                     right.Normalize();
                 }
-                desiredVelocity = (forward * playerInput.y + right * playerInput.x) * maxSpeed;
+                //desiredVelocity = (forward * playerInput.y + right * playerInput.x) * maxSpeed;
+                velocity = (forward * playerInput.y + right * playerInput.x) * maxSpeed;
             }
             else
             {
-                desiredVelocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
+                //desiredVelocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
+                velocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
             }
-            float maxSpeedChange = maxAcceleration * Time.deltaTime;
-            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-            velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
+            //float maxSpeedChange = maxAcceleration * Time.deltaTime;
+            //velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+            //velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
             Vector3 displacement = velocity * Time.deltaTime;
-            Vector3 playerposition = transform.position + displacement;
-            
-            transform.localPosition =Vector3.Lerp(transform.position, playerposition, 60* Time.deltaTime);
-            //transform.localPosition +=displacement; 
-
-            //transform.forward.x = Mathf.Lerp(transform.forward.x, displacement.x, rotSpeed * Time.deltaTime);
+            displacement.y = 0;
             if (displacement.x == 0 && displacement.z == 0)
             {
                 animator.SetBool("walk", false);
             }
             else
             {
-                transform.forward =  Vector3.Lerp(transform.forward, displacement, rotSpeed * Time.deltaTime);
+                transform.forward = Vector3.Lerp(transform.forward, displacement, rotSpeed * Time.deltaTime);
+               
+                    Vector3 playerposition = transform.position + displacement;
+                    transform.localPosition = Vector3.Lerp(transform.position, playerposition, 20 * Time.deltaTime);
+                
+                
+
                 animator.SetBool("walk", true);
             }
+            //Vector3 playerposition = transform.position + displacement;  
+            //transform.localPosition =Vector3.Lerp(transform.position, playerposition, 60* Time.deltaTime);
+            //transform.localPosition +=displacement; 
+
+            //transform.forward.x = Mathf.Lerp(transform.forward.x, displacement.x, rotSpeed * Time.deltaTime);
+            
             
 
 

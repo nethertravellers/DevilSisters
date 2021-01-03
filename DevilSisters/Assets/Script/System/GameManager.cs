@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     //public Button ReStartBtn;
     //public Button GameEndBtn;
-    public bool mouselock;
+    
     public bool keyeActive;
     public GameObject keye;
     public Text keyetext;
@@ -43,14 +43,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mouselock == true)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+        
         switch (currentState)
         {
             case State.title:
