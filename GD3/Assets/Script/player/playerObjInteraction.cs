@@ -52,6 +52,21 @@ public class playerObjInteraction : MonoBehaviour
                     hitInfo.collider.transform.gameObject.GetComponent<lightchange>().lightchangebool = true;
                 }
             }
+            else if (hitInfo.collider.gameObject.name == "resetbtn")
+            {
+                if (hitInfo.collider.transform.parent.gameObject.GetComponent<Relief>().finish == false)
+                {
+                    gameManager.mouse0Active = true;
+                    gameManager.mouse0text.text = "重製";
+
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        hitInfo.collider.transform.parent.gameObject.GetComponent<Relief>().Reset();
+                    }
+                }
+                
+                
+            }
             else
             {
                 gameManager.mouse0Active = false;

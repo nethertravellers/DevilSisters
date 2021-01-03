@@ -10,6 +10,10 @@ public class Relief : MonoBehaviour
     public GameObject ReliefRed;
     public GameObject ReliefGreen;
     public GameObject ReliefPurple;
+    public GameObject ReliefYellow;
+    public GameObject ReliefBlue;
+    public GameObject ReliefOrange;
+
     public GameObject RedKey;
     public GameObject Cage;
     public bool finish;
@@ -36,20 +40,24 @@ public class Relief : MonoBehaviour
                 {
                     RedKey.gameObject.SetActive(true);
                     Cage.gameObject.SetActive(true);
+                    
                     finish = true;
                 }
             }
             else
             {
-               Start();
-                ReliefRed.gameObject.GetComponent<ReliefRed>().Reset();
-                ReliefGreen.gameObject.GetComponent<ReliefGreen>().Reset();
-              ReliefPurple.gameObject.GetComponent<ReliefPurple>().Reset();
-                Cubered.gameObject.GetComponent<PickItem>().Respawned();
-                Cubegreen.gameObject.GetComponent<PickItem>().Respawned();
-                Cubepurple.gameObject.GetComponent<PickItem>().Respawned();
+                Reset();
             }
         }
     }
-
+    public void Reset()
+    {
+        Start();
+        ReliefRed.gameObject.GetComponent<ReliefRed>().Reset();
+        ReliefGreen.gameObject.GetComponent<ReliefGreen>().Reset();
+        ReliefPurple.gameObject.GetComponent<ReliefPurple>().Reset();
+        Cubered.gameObject.GetComponent<PickItem>().Respawned();
+        Cubegreen.gameObject.GetComponent<PickItem>().Respawned();
+        Cubepurple.gameObject.GetComponent<PickItem>().Respawned();
+    }
 }
