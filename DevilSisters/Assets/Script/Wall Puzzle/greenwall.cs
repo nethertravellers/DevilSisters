@@ -8,21 +8,17 @@ public class greenwall : MonoBehaviour
     public bool start;
     public bool finish;
     public enum State { idle, play, end}
-    public State currentState;
-    
-
+    public State currentState;    
     public GameObject redlight;
     public GameObject bluelight;
     public GameObject yellowlight;
     public GameObject greenlight;
-
     // Start is called before the first frame update
     void Start()
     { 
         start = false;
         finish = false;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,7 +32,6 @@ public class greenwall : MonoBehaviour
                 }
                 break;
             case State.play:
-
                 if(bluelight.gameObject.GetComponent<lightchange>().lightchangebool == true && 
                     yellowlight.gameObject.GetComponent<lightchange>().lightchangebool == true&&
                    redlight.gameObject.GetComponent<lightchange>().lightchangebool == false)
@@ -63,11 +58,8 @@ public class greenwall : MonoBehaviour
                 }
                 break;
             case State.end:
-
                 break;
-        }
-
-        
+        }       
     }
     public void Reset()
     {
@@ -75,5 +67,4 @@ public class greenwall : MonoBehaviour
         yellowlight.gameObject.GetComponent<lightchange>().lightchangebool = false;
         redlight.gameObject.GetComponent<lightchange>().lightchangebool = false;
     }
-
 }

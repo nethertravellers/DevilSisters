@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.UI;
-
-
-
-
-
 public class player : MonoBehaviour
 {
     [SerializeField, Range(0f, 100f)]
@@ -20,12 +15,7 @@ public class player : MonoBehaviour
     //public float MoveSpeed = 1;
     [SerializeField]
      float rotSpeed = 50;
-
-    //private Vector3 moveX;
-    //private Vector3 moveZ;
-    //private float currentV;
-    //private float currentH;
-
+    
     public bool walkable;
     private bool ground;
     private float JumpSpeed;
@@ -84,8 +74,7 @@ public class player : MonoBehaviour
         {
             chaange = chaange * -1;
             ChangeTimer = 0;
-        }
-        
+        }        
         switch (currentState)
         {
             case State.OldSister:
@@ -136,7 +125,6 @@ public class player : MonoBehaviour
         playerInput.x = Input.GetAxis("Horizontal");
         playerInput.y = Input.GetAxis("Vertical");
         playerInput = Vector2.ClampMagnitude(playerInput, 1f);
-
         if (walkable == true)
         {
             //Vector3 desiredVelocity;
@@ -148,10 +136,8 @@ public class player : MonoBehaviour
                 right.y = 0f;
                 if (gameObject.GetComponent<playerObjInteraction>().IsDroping == true)
                 {
-                    forward =  gameObject.transform.forward;
-                    
-                    right = gameObject.transform.right;
-                    
+                    forward =  gameObject.transform.forward;                    
+                    right = gameObject.transform.right;                    
                 }
                 else
                 {
@@ -179,13 +165,9 @@ public class player : MonoBehaviour
             }
             else
             {
-                transform.forward = Vector3.Lerp(transform.forward, displacement, rotSpeed * Time.deltaTime);
-               
+                transform.forward = Vector3.Lerp(transform.forward, displacement, rotSpeed * Time.deltaTime);               
                     Vector3 playerposition = transform.position + displacement;
-                    transform.localPosition = Vector3.Lerp(transform.position, playerposition, 20 * Time.deltaTime);
-                
-                
-
+                    transform.localPosition = Vector3.Lerp(transform.position, playerposition, 20 * Time.deltaTime);                                
                 animator.SetBool("walk", true);
             }
             //Vector3 playerposition = transform.position + displacement;  

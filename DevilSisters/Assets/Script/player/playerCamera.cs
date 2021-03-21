@@ -20,8 +20,7 @@ public class playerCamera : MonoBehaviour
     [SerializeField]
     private float sidedistance = 0;
     private Quaternion rotationEuler;
-    private Vector3 cameraPosition;
-    
+    private Vector3 cameraPosition;    
     // Update is called once per frame
     private void Awake()
     {
@@ -34,17 +33,13 @@ public class playerCamera : MonoBehaviour
         if (mouselock == true)
         {
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            
+            Cursor.lockState = CursorLockMode.Locked;            
         }
         else
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
-
-
         if (player.gameObject.GetComponent<playerObjInteraction>().IsDroping == false)
         {
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;
@@ -57,8 +52,7 @@ public class playerCamera : MonoBehaviour
             else if (x < 0)
             {
                 x += 360;
-            }
-            
+            }            
         }
         if (player.gameObject.GetComponent<playerObjInteraction>().IsDroping == true)
         {
@@ -75,8 +69,7 @@ public class playerCamera : MonoBehaviour
         rotationEuler = Quaternion.Euler(y, x, 0);
         //rotationEuler = Quaternion.Euler(0, 0, 0);
         cameraPosition = rotationEuler * new Vector3(sidedistance, height, -distence ) + player.position;
-        //cameraPosition = rotationEuler * new Vector3(0, 0, -4) + player.position;
-        
+        //cameraPosition = rotationEuler * new Vector3(0, 0, -4) + player.position;        
         transform.rotation = rotationEuler;
         transform.position = cameraPosition;
     }

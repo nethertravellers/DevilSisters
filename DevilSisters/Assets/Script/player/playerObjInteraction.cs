@@ -63,9 +63,7 @@ public class playerObjInteraction : MonoBehaviour
                     {
                         hitInfo.collider.transform.parent.gameObject.GetComponent<Relief>().Reset();
                     }
-                }
-                
-                
+                }                                
             }
             else
             {
@@ -84,9 +82,8 @@ public class playerObjInteraction : MonoBehaviour
                 cantaking = false;
                 gameManager.keyeActive = false;
             }
-        }
-        
-        //放置道具
+        }        
+        //拿著道具
         if (Istaking == true)
         {
             gameManager.keyeActive = false;
@@ -97,10 +94,8 @@ public class playerObjInteraction : MonoBehaviour
             for (int f = 0; f < Obj_childCount; f++)
             {
                 takingItem.transform.GetChild(f).gameObject.GetComponent<MeshCollider>().isTrigger = true;
-            }
-            
-            takingItem.gameObject.GetComponent<PickItem>().taken = true;
-            
+            }            
+            takingItem.gameObject.GetComponent<PickItem>().taken = true;            
             if (gameObject.GetComponent<player>().IsOldSister == false)
             {
                 gameManager.mouse0Active = true;
@@ -109,15 +104,13 @@ public class playerObjInteraction : MonoBehaviour
                 {
                     dropItem();
                 }
-            }
-            
+            }            
             if (!Input.GetKey(KeyCode.Mouse0) && force < Maxforce)
             {
                 force -= 1000 * Time.deltaTime;
                 IsDroping = false;
             }
-            force = Mathf.Clamp(force, 0, Maxforce);
-            
+            force = Mathf.Clamp(force, 0, Maxforce);            
             if(canputing == true)
             {
                 gameManager.keyeActive = true;
@@ -126,9 +119,7 @@ public class playerObjInteraction : MonoBehaviour
                 {
                     putItem();
                 }
-            }
-            
-
+            }            
         }
     }
     public void putItem()
@@ -171,7 +162,7 @@ public class playerObjInteraction : MonoBehaviour
         {
             //球形射線檢測,得到半徑radius米範圍內所有的物件
             Collider[] cols = Physics.OverlapSphere(transform.position, radius);
-            //判斷檢測到的物件中有沒有Enemy
+            //判斷檢測到的物件中有沒有目標
             if (cols.Length > 0)
                 for (int i = 0; i < cols.Length; i++)
                     if (cols[i].tag.Equals("putpoint"))
@@ -184,7 +175,7 @@ public class playerObjInteraction : MonoBehaviour
                         takingItem.GetComponent<Rigidbody>().Sleep();
                         Istaking = true;
                     }
-            //沒有檢測到Enemy,將檢測半徑擴大2米
+            //沒有檢測到目標,將檢測半徑擴大2米
             radius += 0.1f;
         }
         takedropingCDtimer = 0;

@@ -14,15 +14,10 @@ public class AttackDestoryableCollider : MonoBehaviour
     {
         if (col.gameObject.tag == "Destoryable Objects")
         {
-
-
             if (isAttack == true)
             {
-                col.gameObject.GetComponent<SubObjectGeneration>().IsInstantiate = true;
-                
-            }
-            
-           
+                col.gameObject.GetComponent<SubObjectGeneration>().IsInstantiate = true;                
+            }           
         }
     }
 }

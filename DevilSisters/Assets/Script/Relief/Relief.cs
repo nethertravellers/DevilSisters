@@ -39,8 +39,7 @@ public class Relief : MonoBehaviour
                 if(finish == false)
                 {
                     RedKey.gameObject.SetActive(true);
-                    Cage.gameObject.SetActive(true);
-                    
+                    Cage.gameObject.SetActive(true);                    
                     finish = true;
                 }
             }
